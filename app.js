@@ -1,14 +1,14 @@
 
 //main calculation
-var budgetController = (function(){
-    var Expense = function(ID,description,value){
+var budgetController = (()=>{
+    var Expense = (ID,description,value)=>{
        this.id = ID;
        this.description = description;
        this.value = value;
        this.percentage = -1;
     };
 
-    Expense.prototype.calcPercentage = function(totalincome){
+    Expense.prototype.calcPercentage = (totalincome)=>{
 
         if(totalincome > 0){
           this.percentage = Math.round((this.value/totalincome) *100);
@@ -20,21 +20,19 @@ var budgetController = (function(){
 
     };
 
-    Expense.prototype.getPerc = function(){
-        return this.percentage;
-
-
+    Expense.prototype.getPerc = ()=>{
+       this.percentage;
     };
 
     
-    var income = function(ID,description,value){
+    var income = (ID,description,value)=>{
         this.id = ID;
         this.description = description;
         this.value = value;
  
      };
 
-     var calcluateTotal = function(type){
+     var calcluateTotal = (type)=>{
          
         var sum = 0;
 
@@ -65,7 +63,7 @@ var budgetController = (function(){
 
      return {
 
-        additem: function(type,des,val){
+        additem: (type,des,val)=>{
 
          var newItem , ID;
          //add ID for each item
@@ -92,7 +90,7 @@ var budgetController = (function(){
         deleteItem: function(type,id){
             var ids, index;
 
-            ids = data.allitem[type].map(function(current) {
+            ids = data.allitem[type].map((current)=> {
                 return current.id;
                 
                 });
@@ -107,7 +105,7 @@ var budgetController = (function(){
             
         },
 
-        calculateBudget: function(){
+        calculateBudget: ()=>{
 
             //calculate income and expense sum
             calcluateTotal('exp');
@@ -129,9 +127,9 @@ var budgetController = (function(){
 
         },
 
-        calculatePercentages: function(){
+        calculatePercentages: ()=>{
 
-            data.allitem.exp.forEach(function(cur){
+            data.allitem.exp.forEach((cur)=>{
                     
                 cur.calcPercentage(data.totals.inc);
 
@@ -141,9 +139,9 @@ var budgetController = (function(){
 
         },
 
-         getpercentages: function(){
+         getpercentages: ()=>{
  
-            var getperc = data.allitem.exp.map(function(cur){
+            var getperc = data.allitem.exp.map((cur)=>{
 
                 return  cur.getPerc();
             });
@@ -151,7 +149,7 @@ var budgetController = (function(){
          },
 
 
-        getbudget: function(){
+        getbudget: ()=>{
          return{
              totalbudget: data.budget,
              totalperc: data.percentage,
@@ -162,7 +160,7 @@ var budgetController = (function(){
         },
 
 
-        testing: function(){
+        testing: ()=>{
             console.log(data);
         }
         
@@ -170,7 +168,7 @@ var budgetController = (function(){
     
 })();
 
-var UIcontroller = (function(){
+var UIcontroller = (()=>{
 //storing of DOMstrings
     var DOMstrings = {
         inputType: '.add__type',
@@ -189,7 +187,7 @@ var UIcontroller = (function(){
 
 };
 
-var formatNumber = function(num, type){
+var formatNumber = (num, type)=>{
           
     //adding minor details to the project
     //1. + and - before a number
@@ -346,7 +344,7 @@ changedType: function(){
 
 
 //making DOMstrings publicly avaiable 
-getDomstring: function(){
+getDomstring: ()=>{
 
     return DOMstrings;
 }
@@ -354,10 +352,10 @@ getDomstring: function(){
 
 })();
 //this links the UI & the budgetController module
-var controller = (function(budgetcntrl,UIcntrl){
+var controller = ((budgetcntrl,UIcntrl)=>{
     
 
-    var setupeventlistener = function(){
+    var setupeventlistener = ()=>{
 
         var DOM = UIcntrl.getDomstring();
 
@@ -374,7 +372,7 @@ var controller = (function(budgetcntrl,UIcntrl){
         
     }
 
-    var updateBudget = function(){
+    var updateBudget = ()=>{
         //1. calculate the budget
         budgetcntrl.calculateBudget();  
         //2. return budget
@@ -385,7 +383,7 @@ var controller = (function(budgetcntrl,UIcntrl){
 
     };
 
-    var updatepercentages = function(){
+    var updatepercentages = ()=>{
 
         //1. calculate percentages
 
@@ -400,7 +398,7 @@ var controller = (function(budgetcntrl,UIcntrl){
 
     };
 
-    var ctrladd = function(){
+    var ctrladd = ()=>{
            var input,newItem ;
          //1. get the input field
           input = UIcntrl.getInput();
@@ -420,7 +418,7 @@ var controller = (function(budgetcntrl,UIcntrl){
         }
     };
 
-   var ctrlDeleteIteam = function(event){
+   var ctrlDeleteIteam = (event)=>{
         var itemID, splitID, type, ID;
     itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
 
@@ -444,7 +442,7 @@ var controller = (function(budgetcntrl,UIcntrl){
     
     return {
 
-        init: function(){
+        init: ()=>{
 
             //call this function in init() so when we open app the values set to default = 0
             UIcntrl.displayBudget(totalbudget = 0,
